@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse,collections,json,shlex,subprocess,urllib,yaml
+import argparse,collections,json,shlex,subprocess,sys,urllib,yaml
 
 # Ordered YAML loading
 def dict_representer(dumper, data):
@@ -27,6 +27,8 @@ def get_latest_version(application):
 def run_cmd(cmd, repo):
     p = subprocess.Popen(shlex.split(cmd), cwd=repo)
     p.communicate()
+    if p.returncode != 0:
+        sys.exit(1)
 
 # main logic
 for repo in args.repository:
