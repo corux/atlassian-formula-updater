@@ -2,18 +2,16 @@ language: minimal
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_aa1fe4955f22_key -iv $encrypted_aa1fe4955f22_iv -in ssh-keys.tar.enc -out ssh-keys.tar -d
-  - tar xf ssh-keys.tar
-  - rm -f ssh-keys/*.pub
-  - eval "$(ssh-agent -s)"
-  - ssh-add ssh-keys/*
+  - tar -C /tmp -xf ssh-keys.tar
+  - cat ssh-config >> ~/.ssh/config
 
 install:
-  - git clone git@github.com:XITASO/atlassian-bamboo-formula.git
-  - git clone git@github.com:XITASO/atlassian-bitbucket-formula.git
-  - git clone git@github.com:XITASO/atlassian-confluence-formula.git
-  - git clone git@github.com:XITASO/atlassian-crowd-formula.git
-  - git clone git@github.com:XITASO/atlassian-fecru-formula.git
-  - git clone git@github.com:XITASO/atlassian-jira-formula.git
+  - git clone bamboo:XITASO/atlassian-bamboo-formula.git
+  - git clone bitbucket:XITASO/atlassian-bitbucket-formula.git
+  - git clone confluence:XITASO/atlassian-confluence-formula.git
+  - git clone crowd:XITASO/atlassian-crowd-formula.git
+  - git clone fecru:XITASO/atlassian-fecru-formula.git
+  - git clone jira:XITASO/atlassian-jira-formula.git
 
 script:
   - ./update-version.py --push atlassian-*

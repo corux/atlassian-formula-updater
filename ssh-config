@@ -1,0 +1,17 @@
+HostName github.com
+User git
+IdentitiesOnly yes
+
+Host bamboo
+	IdentityFile /tmp/ssh-keys/bamboo
+Host bitbucket
+	IdentityFile /tmp/ssh-keys/bitbucket
+Host confluence
+	IdentityFile /tmp/ssh-keys/confluence
+Host crowd
+	IdentityFile /tmp/ssh-keys/crowd
+Host fecru
+	IdentityFile /tmp/ssh-keys/fecru
+Host jira
+	IdentityFile /tmp/ssh-keys/jira
+
