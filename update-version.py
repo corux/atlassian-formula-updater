@@ -21,7 +21,7 @@ args = parser.parse_args()
 # retrieve latest atlassian version via REST api
 def get_latest_version(application):
     data = urllib.request.urlopen("https://marketplace.atlassian.com/rest/1.0/applications/" + application + "/latest").read()
-    output = json.loads(data)
+    output = json.loads(data.decode("utf-8"))
     return output["version"]
 
 def run_cmd(cmd, repo):
