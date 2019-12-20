@@ -1,9 +1,9 @@
-#!/usr/bin/env python
-import argparse,collections,json,shlex,subprocess,sys,urllib,yaml
+#!/usr/bin/env python3
+import argparse,collections,json,shlex,subprocess,sys,urllib.request,urllib.parse,urllib.error,yaml
 
 # Ordered YAML loading
 def dict_representer(dumper, data):
-    return dumper.represent_dict(data.items())
+    return dumper.represent_dict(list(data.items()))
 
 def dict_constructor(loader, node):
     return collections.OrderedDict(loader.construct_pairs(node))
@@ -20,7 +20,7 @@ args = parser.parse_args()
 
 # retrieve latest atlassian version via REST api
 def get_latest_version(application):
-    data = urllib.urlopen("https://marketplace.atlassian.com/rest/1.0/applications/" + application + "/latest").read()
+    data = urllib.request.urlopen("https://marketplace.atlassian.com/rest/1.0/applications/" + application + "/latest").read()
     output = json.loads(data)
     return output["version"]
 
@@ -35,15 +35,15 @@ for repo in args.repository:
     name = ""
     with open("{}/FORMULA".format(repo), 'r') as stream:
         name = yaml.load(stream, Loader=yaml.SafeLoader)["name"]
-    print "{}:".format(name)
+    print("{}:".format(name))
     run_cmd("git pull --quiet", repo)
     defaults_yaml = "{}/{}/defaults.yaml".format(repo, name)
     with open(defaults_yaml, 'r') as stream:
         defaults = yaml.load(stream, Loader=yaml.SafeLoader)
         current = defaults[name]["version"]
         latest = get_latest_version(name[10:])
-        print "  Current version: {}".format(current)
-        print "  Latest  version: {}".format(latest)
+        print("  Current version: {}".format(current))
+        print("  Latest  version: {}".format(latest))
         if not args.dryrun and current != latest:
             # update defaults.yaml
             defaults[name]["version"] = bytes(latest)
