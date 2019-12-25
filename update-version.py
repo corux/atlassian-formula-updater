@@ -46,7 +46,7 @@ for repo in args.repository:
         print("  Latest  version: {}".format(latest))
         if not args.dryrun and current != latest:
             # update defaults.yaml
-            defaults[name]["version"] = bytes(latest)
+            defaults[name]["version"] = latest
             with open(defaults_yaml, 'w') as outfile:
                 outfile.write(yaml.dump(defaults, default_flow_style=False))
 
